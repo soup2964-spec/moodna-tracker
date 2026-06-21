@@ -1,6 +1,5 @@
 import { useMemo, useState, type FormEvent } from "react"
 import { Link, NavLink, Route, Routes, useLocation } from "react-router-dom"
-import { LeadFinderContent } from "../components/LeadFinderContent"
 import { buildDmcaPackage } from "../lib/dmcaTemplates"
 import {
   creatorPiracyMarketplaces,
@@ -23,7 +22,6 @@ const navItems = [
   { label: "Owner alerts", to: "/dashboard/alerts" },
   { label: "Takedowns", to: "/dashboard/takedowns" },
   { label: "Reports", to: "/dashboard/reports" },
-  { label: "Lead finder", to: "/dashboard/lead-finder" },
 ]
 
 const pageTitles: Record<string, string> = {
@@ -34,7 +32,6 @@ const pageTitles: Record<string, string> = {
   "/dashboard/alerts": "Owner alerts",
   "/dashboard/takedowns": "Takedowns",
   "/dashboard/reports": "Reports",
-  "/dashboard/lead-finder": "Lead finder",
 }
 
 function labelForMarketplace(marketplace: Marketplace) {
@@ -628,7 +625,6 @@ export function TrackerDashboardPage() {
         <Route path="alerts" element={<AlertsContent />} />
         <Route path="takedowns" element={<TakedownsContent />} />
         <Route path="reports" element={<ReportsContent />} />
-        <Route path="lead-finder" element={<LeadFinderContent />} />
       </Routes>
     </DashboardShell>
   )
