@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 145 36" role="img" aria-label="AliExpress">
+  <g transform="translate(2,4)">
+    <path fill="#e62e04" d="M2 2h10l8 12-8 12H2l8-12L2 2z"/>
+    <path fill="#ff9000" d="M6 8h5l4 6-4 6H6l4-6-4-6z"/>
+    <text x="28" y="21" fill="#e62e04" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="700">AliExpress</text>
+  </g>
+</svg>
