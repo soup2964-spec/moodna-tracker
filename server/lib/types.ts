@@ -17,7 +17,14 @@ export type Marketplace =
 
 export type ClaimType = "copyright" | "trademark" | "counterfeit"
 export type ScanJobStatus = "queued" | "running" | "completed" | "failed"
-export type ScanResultStatus = "new" | "reviewing" | "approved" | "rejected" | "takedown_requested" | "removed" | "reappeared"
+export type ScanResultStatus =
+  | "new"
+  | "reviewing"
+  | "approved"
+  | "rejected"
+  | "takedown_requested"
+  | "removed"
+  | "reappeared"
 export type AlertStatus = "unread" | "read" | "actioned"
 export type SuppressionReason =
   | "false_positive"
@@ -40,7 +47,13 @@ export type SuppressedListing = {
   createdAt: string
   liftedAt?: string
 }
-export type TakedownStatus = "draft" | "awaiting_owner_approval" | "approved" | "submitted" | "removed" | "rejected"
+export type TakedownStatus =
+  | "draft"
+  | "awaiting_owner_approval"
+  | "approved"
+  | "submitted"
+  | "removed"
+  | "rejected"
 
 export type BrandProfile = {
   id: string
@@ -124,30 +137,6 @@ export type Alert = {
   createdAt: string
 }
 
-export type DmcaSubmissionMethod = "email" | "portal" | "manual"
-
-export type DmcaChannel = {
-  id: string
-  label: string
-  method: DmcaSubmissionMethod
-  recipientEmail?: string
-  portalUrl?: string
-  notes?: string
-}
-
-export type DmcaNoticePackage = {
-  subject: string
-  body: string
-  evidence: string[]
-  channel: DmcaChannel
-  marketplace: Marketplace
-  listingUrl: string
-  listingTitle: string
-  sellerName: string
-  claimType: ClaimType
-  generatedAt: string
-}
-
 export type TakedownRequest = {
   id: string
   scanResultId: string
@@ -184,13 +173,13 @@ export type TrackerState = {
   suppressedListings: SuppressedListing[]
 }
 
-export type BrandIntakeInput = {
-  websiteUrl: string
-}
+export type ScanDiscoveryMethod = "text_search" | "public_www" | "reverse_image" | "dropshipper_search"
 
-export type ScanSetupInput = {
-  brandProfileId: string
-  marketplaces: Marketplace[]
-  keywords: string
-  frequency: ScanJob["frequency"]
+export type ScanCandidate = Omit<
+  ScanResult,
+  "id" | "scanJobId" | "brandProfileId" | "createdAt" | "status"
+> & {
+  snippet?: string
+  discoveryMethod?: ScanDiscoveryMethod
+  sourceImageUrl?: string
 }

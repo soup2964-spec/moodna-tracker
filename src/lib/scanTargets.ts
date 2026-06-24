@@ -15,6 +15,7 @@ export const scanTargets: ScanTargetConfig[] = [
   { id: "etsy", label: "Etsy", category: "ecommerce" },
   { id: "aliexpress", label: "AliExpress", category: "ecommerce" },
   { id: "shopify", label: "Shopify stores", category: "ecommerce" },
+  { id: "web", label: "Similar sites", category: "ecommerce" },
   { id: "reddit", label: "Reddit", category: "creator_piracy" },
   { id: "telegram", label: "Telegram", category: "creator_piracy" },
   { id: "twitter", label: "X / Twitter", category: "creator_piracy" },
@@ -32,6 +33,13 @@ export const creatorPiracyMarketplaces = scanTargets
 export const ecommerceMarketplaces = scanTargets
   .filter((target) => target.category === "ecommerce")
   .map((target) => target.id)
+
+export const allScanMarketplaces = scanTargets.map((target) => target.id)
+
+export function scanMarketplacesForBrand(websiteUrl: string) {
+  if (isCreatorProfileUrl(websiteUrl)) return allScanMarketplaces
+  return ecommerceMarketplaces
+}
 
 const labelByMarketplace = Object.fromEntries(
   scanTargets.map((target) => [target.id, target.label]),
@@ -138,10 +146,10 @@ const piracyResultTemplates: Record<
 export function buildSyntheticScanResult(
   marketplace: Marketplace,
   brand: BrandProfile,
-  scanJob: ScanJob,
+  _scanJob: ScanJob,
   index: number,
 ): Omit<ScanResult, "id" | "scanJobId" | "brandProfileId" | "createdAt"> {
-  const confidence = Math.min(98, scanJob.riskThreshold + 9 + index * 3)
+  const confidence = Math.min(98, 84 + index * 3)
   const slug = brand.brandName.toLowerCase().replace(/\s+/g, "")
 
   if (isCreatorPiracyTarget(marketplace)) {

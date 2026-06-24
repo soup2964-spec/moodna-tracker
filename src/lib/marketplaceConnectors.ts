@@ -4,7 +4,6 @@ import { buildSyntheticScanResult, getScanTargetLabel, isCreatorPiracyTarget } f
 export type MarketplaceScanContext = {
   brand: BrandProfile
   keywords: string[]
-  riskThreshold: number
 }
 
 export type MarketplaceConnector = {
@@ -26,7 +25,7 @@ function syntheticEcommerceResult(
     sellerName: `${context.brand.brandName.replace(/\s+/g, "")}${displayName}Deals`,
     listingTitle: `${context.brand.brandName} listing with suspected protected asset reuse`,
     listingUrl: `https://${marketplace}.example.com/suspected-${encodeURIComponent(context.brand.brandName.toLowerCase())}`,
-    confidence: Math.min(98, context.riskThreshold + confidenceOffset),
+    confidence: Math.min(98, 84 + confidenceOffset),
     matchReason: `${displayName} result matched brand keywords (${context.keywords.slice(0, 3).join(", ")}) and official site signals.`,
     status: "new",
     evidenceUrls: [context.brand.websiteUrl],
@@ -72,7 +71,6 @@ function createPiracyConnector(
           keywords: context.keywords,
           status: "running",
           frequency: "once",
-          riskThreshold: context.riskThreshold,
           createdAt: new Date().toISOString(),
         },
         0,
@@ -80,7 +78,7 @@ function createPiracyConnector(
       return [
         {
           ...result,
-          confidence: Math.min(98, context.riskThreshold + confidenceOffset),
+          confidence: Math.min(98, 84 + confidenceOffset),
           matchReason: `${displayName} matched creator keywords (${context.keywords.slice(0, 3).join(", ")}) and protected media fingerprints.`,
         },
       ]
@@ -98,6 +96,7 @@ export const marketplaceConnectors: Record<Marketplace, MarketplaceConnector> = 
   etsy: createConnector("etsy", "Etsy", true, 10),
   aliexpress: createConnector("aliexpress", "AliExpress", false, 11),
   shopify: createConnector("shopify", "Shopify stores", false, 13),
+  web: createConnector("web", "Similar sites", false, 12),
   reddit: createPiracyConnector("reddit", getScanTargetLabel("reddit"), 9),
   telegram: createPiracyConnector("telegram", getScanTargetLabel("telegram"), 12),
   twitter: createPiracyConnector("twitter", getScanTargetLabel("twitter"), 10),
